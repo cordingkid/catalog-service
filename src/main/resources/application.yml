@@ -25,5 +25,11 @@ spring:
         max-interval: 2000 # 재시도 지연 최대 시간
         multiplier: 1.1 # 지연 시간 계산 승수
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh # HTTP를 통해 /actuator/refresh 엔드포인트를 노출한다.
+
 polar:
   greeting: Welcome to the local book catalog!

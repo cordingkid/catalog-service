@@ -40,6 +40,9 @@ dependencies {
 
 	// 서버 연결 재시도 스프링 리트라이
 	implementation 'org.springframework.retry:spring-retry'
+
+	// 새로고침 이벤트를 트리거하는 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
 dependencyManagement {
