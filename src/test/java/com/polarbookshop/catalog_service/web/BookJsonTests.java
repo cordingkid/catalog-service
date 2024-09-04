@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 
+import java.time.LocalDateTime;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -20,37 +22,49 @@ public class BookJsonTests {
 
     @Test
     void testSerialize() throws Exception {
-        var book = new Book("1234567890", "Title", "Author", 9.90);
+        var now = LocalDateTime.now();
+
+        var book = new Book(394L, "1234567890", "Title", "Author", 9.90, "Polarsophia", now, now, 21);
 
         var jsonContent = json.write(book);
-
-        // 필드값 얻는법 @.isbn 이렇게 하면 얻을수 있음
-
-        assertThat(jsonContent)
-                .extractingJsonPathStringValue("@.isbn")
-                .isEqualTo(book.isbn());
+        assertThat(jsonContent).extractingJsonPathNumberValue("@.id")
+                .isEqualTo(book.getId().intValue());
+        assertThat(jsonContent).extractingJsonPathStringValue("@.isbn")
+                .isEqualTo(book.getIsbn());
         assertThat(jsonContent).extractingJsonPathStringValue("@.title")
-                .isEqualTo(book.title());
+                .isEqualTo(book.getTitle());
         assertThat(jsonContent).extractingJsonPathStringValue("@.author")
-                .isEqualTo(book.author());
+                .isEqualTo(book.getAuthor());
         assertThat(jsonContent).extractingJsonPathNumberValue("@.price")
-                .isEqualTo(book.price());
+                .isEqualTo(book.getPrice());
+        assertThat(jsonContent).extractingJsonPathStringValue("@.publisher")
+                .isEqualTo(book.getPublisher());
+        assertThat(jsonContent).extractingJsonPathStringValue("@.createdDate")
+                .isEqualTo(book.getCreatedDate().toString());
+        assertThat(jsonContent).extractingJsonPathStringValue("@.lastModifiedDate")
+                .isEqualTo(book.getLastModifiedDate().toString());
+        assertThat(jsonContent).extractingJsonPathNumberValue("@.version")
+                .isEqualTo(book.getVersion());
     }
 
     @Test
     void testDeserialize() throws Exception {
+        var instant = LocalDateTime.parse("2021-09-07T22:50:37.135029Z");
         var content = """
                 {
+                    "id": 394,
                     "isbn": "1234567890",
                     "title": "Title",
                     "author": "Author",
-                    "price": 9.90
+                    "price": 9.90,
+                    "publisher": "Polarsophia",
+                    "createdDate": "2021-09-07T22:50:37.135029Z",
+                    "lastModifiedDate": "2021-09-07T22:50:37.135029Z",
+                    "version": 21
                 }
                 """;
-
-        // Json에서 자바 객체로 역직렬화
         assertThat(json.parse(content))
                 .usingRecursiveComparison()
-                .isEqualTo(new Book("1234567890", "Title", "Author", 9.90));
+                .isEqualTo(new Book(394L, "1234567890", "Title", "Author", 9.90, "Polarsophia", instant, instant, 21));
     }
 }
