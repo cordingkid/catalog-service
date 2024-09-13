@@ -24,7 +24,11 @@ import static org.assertj.core.api.Assertions.assertThat;
         // 테스트컨테이너를 이용해야 하기 때문에 내장 테스트 데이터베이스 사용을 비활성화
         replace = AutoConfigureTestDatabase.Replace.NONE
 )
-@ActiveProfiles("integration") // application-integration.yml 에서 설정을 로드하기 위해 활성화
+//@ActiveProfiles("integration") // application-integration.yml 에서 설정을 로드하기 위해 활성화
+@TestPropertySource(
+        locations = "classpath:application-integration.yml",
+        properties = "spring.cloud.config.enabled=false"
+)
 public class BookRepositoryJdbcTests {
 
     @Autowired

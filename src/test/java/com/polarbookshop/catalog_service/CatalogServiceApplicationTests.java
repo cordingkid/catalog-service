@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,7 +15,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 		// 완전한 스프링 웹 애플리케이션 콘텍스트와 임의의 포트를 듣는 서블릿 컨테이너를 로드
 		webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
-@ActiveProfiles("integration")
+//@ActiveProfiles("integration")
+@TestPropertySource(
+		locations = "classpath:application-integration.yml",
+		properties = "spring.cloud.config.enabled=false"
+)
 class CatalogServiceApplicationTests {
 
 	// 테스트를 위해 REST 엔드포인트를 호출할 유틸리티
