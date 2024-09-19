@@ -33,7 +33,7 @@ spring:
       maximum-pool-size: 5 # 히카리 CP가 풀에 최대한으로 유지할 수 있는 연결 객체수
   jpa:
     hibernate:
-      ddl-auto: create #validate
+      ddl-auto: validate #validate
 
 management:
   endpoints:
