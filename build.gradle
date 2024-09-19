@@ -35,6 +35,8 @@ dependencies {
 	implementation 'org.springframework.retry:spring-retry'
 	// 새로고침 이벤트를 트리거하는 의존성
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	// 데이터베이스 버전 관리를 위한 플라이웨이 의존성 추가
+	implementation 'org.flywaydb:flyway-database-postgresql'
 
 	runtimeOnly 'org.postgresql:postgresql'
 	compileOnly 'org.projectlombok:lombok'
