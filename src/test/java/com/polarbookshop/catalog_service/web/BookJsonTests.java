@@ -1,13 +1,13 @@
 package com.polarbookshop.catalog_service.web;
 
 import com.polarbookshop.catalog_service.domain.Book;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -49,7 +49,7 @@ public class BookJsonTests {
 
     @Test
     void testDeserialize() throws Exception {
-        var instant = LocalDateTime.parse("2021-09-07T22:50:37.135029Z");
+        var instant =  LocalDateTime.parse("2021-09-07T22:50:37.135029Z", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSX"));
         var content = """
                 {
                     "id": 394,
