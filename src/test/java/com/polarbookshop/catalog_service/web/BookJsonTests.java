@@ -14,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Json 직렬화에 중점을 둔 테스트
  */
+@SuppressWarnings("AssertBetweenInconvertibleTypes")
 @JsonTest
 public class BookJsonTests {
 
