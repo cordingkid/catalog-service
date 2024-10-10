@@ -4,8 +4,8 @@ name: Commit stage
 # 새 코드를 저장소로 푸시하면 워크플로를 시작한다. #
 on: push
 
+# 깃허브 컨테이너 저장소 사용
 env:
-  # 깃허브 컨테이너 저장소 사용
   REGISTRY: ghcr.io
   IMAGE_NAME: cordingkid/catalog-service
   VERSION: latest
@@ -83,6 +83,7 @@ jobs:
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
       - name: Log into container registry
+        uses: docker/login-action@v2
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
