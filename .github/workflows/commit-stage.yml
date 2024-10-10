@@ -4,6 +4,12 @@ name: Commit stage
 # 새 코드를 저장소로 푸시하면 워크플로를 시작한다. #
 on: push
 
+env:
+  # 깃허브 컨테이너 저장소 사용
+  REGISTRY: ghcr.io
+  IMAGE_NAME: cordingkid/catalog-service
+  VERSION: latest
+
 jobs:
   build:
     name: Build and Test # 작업의 인간 친화적 명칭?
@@ -37,3 +43,49 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew build
+  package:
+    name: Package and Publish
+    # 잡을 main 브랜치에 대해서만 실행
+    if: ${{ github.ref == 'refs/heads/main' }}
+    # build 잡이 성공적으로 수행된 경우에만 실행
+    needs: [ build ]
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read # 현재 깃 저장소를 체크아웃하기 위한 권한
+      packages: write # 깃허브 컨테이너 저장소로 이미지를 업로드하기 위한 권한
+      security-events: write # 깃허브로 보안 이벤트를 제출하기 위한 권한
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+      - name: Build container image
+        run: |
+          chmod +x gradlew
+          ./gradlew bootBuildImage \
+            --imageName ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+      - name: OCI image vulnerability scanning
+        uses: anchore/scan-action@v3 # 그라이프를 사용해 릴리스 후보 이미지 스캔
+        id: scan
+        with:
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+          fail-build: false
+          severity-cutoff: high
+          acs-report-enable: true
+      - name: Upload vulnerability report
+        # 깃허브 보안 취약성 리포트 업로드 SARIF 형식
+        uses: github/codeql-action/upload-sarif@v2
+        if: success() || failure()
+        with:
+          sarif_file: ${{ steps.scan.outputs.sarif }}
+      - name: Log into container registry
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish container image
+        run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
