@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-service
+  labels:
+    app: catalog-service
+spec:
+  type: ClusterIP
+  selector:
+    # 대상으로 삼고 노출해야 하는 파드를 찾는데 사용할 레이블
+    app: catalog-service
+  ports:
+    - protocol: TCP
+      # 서비스가 노출할 포트
+      port: 80
+      # 서비스의 대상이 되는 파드가 노출할 포트
+      targetPort: 9001
