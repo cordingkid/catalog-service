@@ -1,0 +1,37 @@
+# 배포 객체에 대한 API 버전
+apiVersion: apps/v1
+# 생성할 객체의 유형
+kind: Deployment
+metadata:
+  # 배포이름
+  name: catalog-service
+  #배포에 추가할 레이블집합
+  labels:
+    app: catalog-service
+spec:
+  # 확장할 객체 식별방법정의
+  selector:
+    matchLabels:
+      app: catalog-service
+  # 파드 객체에 추가되는 레이블 (레이블은 셀렉터로 사용하는 것과 일치해야함)
+  template:
+    metadata:
+      labels:
+        app: catalog-service
+    spec:
+      containers:
+        - name: catalog-service
+          # 태그가 정의 안될경우 latest가 사용
+          image: catalog-service
+          # 이미지가 로컬에 없는 경우 컨테이너 저장소에서 이미지 다운을 k8s에게 지시
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9001
+          env:
+            - name: BPL_JVM_THREAD_COUNT
+              value: "50"
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://polar-postgres/polardb_catalog
+            - name: SPRING_PROFILES_ACTIVE
+              value: testdata
+
