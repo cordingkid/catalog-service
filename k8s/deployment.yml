@@ -9,6 +9,8 @@ metadata:
   labels:
     app: catalog-service
 spec:
+  # 배포할 파드 복제본 수 정의
+  replicas: 1
   # 확장할 객체 식별방법정의
   selector:
     matchLabels:
