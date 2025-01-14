@@ -39,6 +39,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate #validate
+  security:
+    oauth2:
+      resourceserver:
+        jwt:                                                      # 엑세스 토큰에 대한 데이터 형식 명시
+          issuer-uri: http://localhost:8080/realms/PolarBookshop  # Oauth2 엔드포인트에 대한 정보를 제공하는 키클로 URL
 
 management:
   endpoints:
