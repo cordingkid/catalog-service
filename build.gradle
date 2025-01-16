@@ -22,6 +22,7 @@ ext {
 	set('springCloudVersion', "2023.0.3")
 	// 테스트컨테이너 버전
 	set('testcontainersVersion', "1.19.8")
+	set('testKeycloakVersion', "3.3.1")
 }
 
 dependencies {
@@ -51,6 +52,9 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	// PostgreSQL DB 컨테이너 관리 기능 제공
 	testImplementation 'org.testcontainers:postgresql'
+
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation "com.github.dasniko:testcontainers-keycloak:${testKeycloakVersion}"
 }
 
 dependencyManagement {
