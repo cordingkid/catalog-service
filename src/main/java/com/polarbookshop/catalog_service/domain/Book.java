@@ -71,20 +71,17 @@ public class Book {
                 if (this == o) return true;
                 if (o == null || getClass() != o.getClass()) return false;
                 Book book = (Book) o;
-                return version == book.version &&
-                        id.equals(book.id) &&
-                        isbn.equals(book.isbn) &&
-                        title.equals(book.title) &&
-                        author.equals(book.author) &&
-                        price.equals(book.price) &&
-                        Objects.equals(publisher, book.publisher) &&
-                        createdDate.equals(book.createdDate) &&
-                        lastModifiedDate.equals(book.lastModifiedDate);
+
+                if (id != null && book.id != null) {
+                        return id.equals(book.id);
+                }
+
+                return Objects.equals(isbn, book.isbn);
         }
 
         @Override
         public int hashCode() {
-                return Objects.hash(id, isbn, title, author, price, publisher, createdDate, lastModifiedDate, version);
+                return id != null ? Objects.hash(id) : Objects.hash(isbn);
         }
 }
 
