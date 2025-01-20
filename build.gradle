@@ -52,6 +52,7 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	// PostgreSQL DB 컨테이너 관리 기능 제공
 	testImplementation 'org.testcontainers:postgresql'
+	testImplementation 'org.testcontainers:junit-jupiter'
 
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation "com.github.dasniko:testcontainers-keycloak:${testKeycloakVersion}"
