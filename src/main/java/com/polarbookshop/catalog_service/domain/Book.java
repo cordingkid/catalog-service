@@ -9,7 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -44,10 +46,19 @@ public class Book {
         private String publisher;
 
         @CreatedDate
+        @Column(updatable = false)
         private LocalDateTime createdDate;
 
         @LastModifiedDate
         private LocalDateTime lastModifiedDate;
+
+        @CreatedBy
+        @Column(name = "created_by", updatable = false)
+        private String createdBy;
+
+        @LastModifiedBy
+        @Column(name = "last_modified_by")
+        private String lastModifiedBy;
 
         @Version
         private int version;
@@ -60,6 +71,8 @@ public class Book {
                         author,
                         price,
                         publisher,
+                        null,
+                        null,
                         null,
                         null,
                         0
@@ -82,6 +95,16 @@ public class Book {
         @Override
         public int hashCode() {
                 return id != null ? Objects.hash(id) : Objects.hash(isbn);
+        }
+
+        public void updateDetail(Book updatedBook) {
+                this.title = updatedBook.getTitle();
+                this.author = updatedBook.getAuthor();
+                this.price = updatedBook.getPrice();
+                this.publisher = updatedBook.getPublisher();
+                this.lastModifiedDate = updatedBook.getLastModifiedDate();
+                this.lastModifiedBy = updatedBook.getLastModifiedBy();
+                this.version = updatedBook.getVersion();
         }
 }
 
