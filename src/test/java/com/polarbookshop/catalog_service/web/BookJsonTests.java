@@ -40,6 +40,14 @@ public class BookJsonTests {
                 .isEqualTo(book.getPrice());
         assertThat(jsonContent).extractingJsonPathStringValue("@.publisher")
                 .isEqualTo(book.getPublisher());
+        assertThat(jsonContent).extractingJsonPathStringValue("@.createdDate")
+                .isEqualTo(book.getCreatedDate().toString());
+        assertThat(jsonContent).extractingJsonPathStringValue("@.lastModifiedDate")
+                .isEqualTo(book.getLastModifiedDate().toString());
+        assertThat(jsonContent).extractingJsonPathStringValue("@.createdBy")
+                .isEqualTo(book.getCreatedBy());
+        assertThat(jsonContent).extractingJsonPathStringValue("@.lastModifiedBy")
+                .isEqualTo(book.getLastModifiedBy());
         assertThat(jsonContent).extractingJsonPathNumberValue("@.version")
                 .isEqualTo(book.getVersion());
     }
@@ -49,15 +57,17 @@ public class BookJsonTests {
         var instant =  LocalDateTime.parse("2021-09-07T22:50:37.135029Z", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSX"));
         var content = """
                 {
-                    "id": 394,
-                    "isbn": "1234567890",
-                    "title": "Title",
-                    "author": "Author",
-                    "price": 9.90,
-                    "publisher": "Polarsophia",
-                    "createdDate": "2021-09-07T22:50:37.135029Z",
-                    "lastModifiedDate": "2021-09-07T22:50:37.135029Z",
-                    "version": 21
+                     "id": 394,
+                     "isbn": "1234567890",
+                     "title": "Title",
+                     "author": "Author",
+                     "price": 9.90,
+                     "publisher": "Polarsophia",
+                     "createdDate": "2021-09-07T22:50:37.135029Z",
+                     "lastModifiedDate": "2021-09-07T22:50:37.135029Z",
+                     "createdBy": "jenny",
+                     "lastModifiedBy": "eline",
+                     "version": 21
                 }
                 """;
         assertThat(json.parse(content))
