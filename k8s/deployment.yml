@@ -45,4 +45,18 @@ spec:
               value: testdata
             - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
               value: http://polar-keycloak/realms/PolarBookshop
+          # 활성 상태 프로브 설정
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 9001
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          # 준비 상태 프로브 설정
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 9001
+            initialDelaySeconds: 5
+            periodSeconds: 15
 
