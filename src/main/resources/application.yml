@@ -49,7 +49,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health
+        include: health, metrics
   endpoint:
     health:
       show-details: always                                        # 애플리케이션의 상세 상태정보 확인
