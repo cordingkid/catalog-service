@@ -18,6 +18,7 @@ repositories {
 }
 
 ext {
+	set('otelVersion', "2.4.0")
 	// 스프링 클라우드 버전
 	set('springCloudVersion', "2023.0.3")
 	// 테스트컨테이너 버전
@@ -43,6 +44,7 @@ dependencies {
 
 
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+	runtimeOnly "io.opentelemetry.javaagent:opentelemetry-javaagent:${otelVersion}"
 	runtimeOnly 'org.postgresql:postgresql'
 	compileOnly 'org.projectlombok:lombok'
 
