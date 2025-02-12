@@ -69,6 +69,10 @@ dependencyManagement {
 	}
 }
 
+springBoot {
+	buildInfo()
+}
+
 bootRun {
 	systemProperty 'spring.profiles.active', 'testdata'
 }
