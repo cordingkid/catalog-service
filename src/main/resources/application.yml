@@ -17,9 +17,10 @@ spring:
     # 15초의 종료 기간을 둔다
     timeout-per-shutdown-phase: 15s
   config:
-    import: "optional:configserver:" # 컨피그 서버에서 설정 데이터 가져온다.
+    import: ""                          # 컨피그 서비스로부터 설정데이터 임포트 중지 "optional:configserver:"
   cloud:
     config:
+      enabled: false                     # 스프링 클라우드 컨피그 클라이언트 통합 비활성화
       uri: http://localhost:8888
       request-connect-timeout: 5000 # 설정 서버에 연결 까지의 시간 (밀리초)
       request-read-timeout: 5000 # 설정 서버에 데이터를 읽기 까지 시간 (밀리초)
