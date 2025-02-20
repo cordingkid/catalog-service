@@ -63,9 +63,11 @@ spec:
               port: 9001
             initialDelaySeconds: 5
             periodSeconds: 15
+          # 컨피그맵을 컨테이너에서 볼륨으로 마운트
           volumeMounts:
             - name: catalog-config-volume
               mountPath: /workspace/config
+      # 파드를 위한 볼륨정의
       volumes:
         - name: catalog-config-volume
           configMap:
