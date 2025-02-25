@@ -41,25 +41,21 @@ spec:
           env:
             - name: BPL_JVM_THREAD_COUNT
               value: "50"
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://polar-postgres/polardb_catalog
             - name: SPRING_PROFILES_ACTIVE
               value: testdata
-            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
-              value: http://polar-keycloak/realms/PolarBookshop
           # 활성 상태 프로브 설정
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: 9001
-            initialDelaySeconds: 10
+            initialDelaySeconds: 45
             periodSeconds: 5
           # 준비 상태 프로브 설정
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: 9001
-            initialDelaySeconds: 5
+            initialDelaySeconds: 40
             periodSeconds: 15
           # 컨피그맵을 컨테이너에서 볼륨으로 마운트
           volumeMounts:
