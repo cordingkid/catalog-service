@@ -51,7 +51,7 @@ jobs:
           kubeconform: latest
       - name: Validate Kubernetes manifests
         run: |
-          kubeconform --strict k8s
+          kustomize build k8s | kubeconform --strict -
   package:
     name: Package and Publish
     # 잡을 main 브랜치에 대해서만 실행
