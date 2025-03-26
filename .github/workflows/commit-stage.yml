@@ -8,7 +8,7 @@ on: push
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: cordingkid/catalog-service
-  VERSION: latest
+  VERSION: ${{ github.sha }}
 
 jobs:
   build:
